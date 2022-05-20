@@ -432,7 +432,7 @@ export default {
     position: relative;
   }
   .route__left {
-    z-index: 20;
+    z-index: 2;
     position: absolute;
     left: 0.24rem;
     top: 2.17rem;
@@ -445,7 +445,7 @@ export default {
     }
   }
   .route__right {
-    z-index: 20;
+    z-index: 2;
     position: absolute;
     right: 0.24rem;
     top: 2.17rem;

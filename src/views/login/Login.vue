@@ -47,9 +47,9 @@
 import Header from "../../components/Header.vue";
 import axios from "axios";
 export default {
-  name: "",
   data() {
     return {
+      name: "",
       checked: false,
       src0: require("../../assets/title/title3.png"),
       src1: require("../../assets/default.png"),
@@ -62,20 +62,20 @@ export default {
   },
   mounted() {
     this.changehead();
-    if(this.$store.state.login){
-      this.$router.push('/')
+    if (this.$store.state.login) {
+      this.$router.push("/");
     }
   },
   methods: {
     handleLogin() {
       if (this.name != "" && this.password != "") {
-        const data={
-          login:true,
-          user:this.name
-        }
-        this.$store.commit("Login",data);        
-        this.$store.commit("Init")
-        this.$router.push('/')
+        const data = {
+          login: true,
+          user: this.name,
+        };
+        this.$store.commit("Login", data);
+        this.$store.commit("Init");
+        this.$router.push("/");
       }
     },
     handleClick() {
@@ -115,7 +115,8 @@ export default {
   background-size: 12.8rem 3.8rem;
   background-repeat: no-repeat;
   background-position-y: 2.47rem;
-  position: relative;
+  height: 7.2rem;
+  width: 12.8rem;
   &__title {
     position: absolute;
     width: 0.64rem;

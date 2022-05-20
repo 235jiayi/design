@@ -19,16 +19,25 @@ const getLocalList = () => {
     return JSON.parse(localStorage.list)
   return {}
 }
+const getLocalUserName = () => { 
+  if (localStorage.login) { 
+    let user = JSON.parse(localStorage.login)
+    return user.user
+  }
+  return ''
+}
 export default createStore({
   state: {
     login: getLocalUser(),
-    list: getLocalList()
+    list: getLocalList(),
+    username:getLocalUserName()
   },
   getters: {
   },
   mutations: {
     Login(state, payload) {
-      state.login = payload
+      state.login = payload;
+      state.username=payload.user
       setLocalUser(state)
     },
     Commend(state, payload) {
