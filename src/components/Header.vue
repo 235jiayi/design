@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="header">
     <audio controls="controls" ref="audio" hidden v-show="!showIcon">
       <source :src="music" type="audio/mpeg" />
     </audio>
@@ -9,27 +9,18 @@
         <div class="header__middle__item">八法智识</div>
         <div class="header__middle__item" @click="showMiddle = true">
           山海会场
-          <div
-            class="header__open__middle"
-            v-show="showMiddle"
-          >
-            <div class="header__open__middle__items" @click.stop="showMiddle=false">山海会场</div>
+          <div class="header__open__middle" v-show="showMiddle">
+            <div class="header__open__middle__items" @click.stop="showMiddle = false">山海会场</div>
             <div class="header__open__middle__items" @click.stop="handleitems($event)">书法会场</div>
             <div class="header__open__middle__items" @click.stop="handleitems($event)">国画会场</div>
             <div class="header__open__middle__items" @click.stop="handleitems($event)">综合会场</div>
           </div>
         </div>
-        <div class="header__middle__item" @click="handleRouteSouvenir">
-          纪念周边
-        </div>
+        <div class="header__middle__item" @click="handleRouteSouvenir">纪念周边</div>
       </div>
       <div class="header__right">
         <div class="header__right__item" @click="handleshowInfo">
-          <svg
-            viewBox="0 0 32 35"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg viewBox="0 0 32 35" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_d_28_12044)">
               <path
                 fill-rule="evenodd"
@@ -58,31 +49,15 @@
                 <feOffset dy="4" />
                 <feGaussianBlur stdDeviation="2" />
                 <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-                />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_28_12044"
-                />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_28_12044"
-                  result="shape"
-                />
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_28_12044" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_28_12044" result="shape" />
               </filter>
             </defs>
           </svg>
         </div>
         <div class="header__right__item" v-show="!showIcon" @click="musicStart">
-          <svg
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -92,11 +67,7 @@
           </svg>
         </div>
         <div class="header__right__item" v-show="showIcon" @click="musicPause">
-          <svg
-            viewBox="-5 -8 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg viewBox="-5 -8 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -106,11 +77,7 @@
           </svg>
         </div>
         <div class="header__right__item">
-          <svg
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -120,35 +87,57 @@
           </svg>
         </div>
         <div class="header__right__login" @click="showRight = !showRight">
-          <div v-show="!login">未登录</div>
-          <div v-show="login" >{{username}}</div>
+          <div v-show="!login && $store.state.user.register" @click="handleRouterLogin" class="user">未登录</div>
+          <div v-show="!$store.state.user.register" @click="handleRouterLogin" class="user">未注册</div>
+          <div v-show="login" class="user">{{ username }}</div>
           <div class="img-wrapper" @click="handleRouterLogin">
             <img :src="src" alt="" />
           </div>
         </div>
-        <div
-          class="header__open__right"
-          v-show="showRight&&login"
-        >
-          <div class="header__open__right__items" @click.stop="handleitems($event)" >我喜欢的</div>
-          <div class="header__open__right__items" @click.stop="handleitems($event)" >上传作品</div>
-          <div class="header__open__right__items" @click.stop="handleitems($event)" >物流管理</div>
-          <div class="header__open__right__items" @click.stop="logout" >退出登录</div>
+        <div class="header__open__right" v-show="showRight && login">
+          <div class="header__open__right__items" @click.stop="handleitems($event)">我喜欢的</div>
+          <div class="header__open__right__items" @click.stop="handleitems($event)">上传作品</div>
+          <div class="header__open__right__items" @click.stop="handleitems($event)">物流管理</div>
+          <div class="header__open__right__items" @click.stop="logout">退出登录</div>
         </div>
       </div>
     </div>
-    <div class="info" v-show="showInfo" @click="showInfo=false" ref="info">
-      <div class="info__content" >
+    <div class="info" v-show="showInfo" @click="showInfo = false" ref="info">
+      <div class="info__content">
+        <div class="info__content__title">
+          <p>关<br />于<br />我<br />们</p>
+          <img :src="src1" alt="" />
+        </div>
         <div class="info__content__text" ref="wrapper">
-          <div class="text__wrapper" >
-            <p>后疫情时代，线下展会的开展受到了一定的阻力。线上展会的形式渐渐进入我们的生活。本作品依托一个虚构的线上书画云展会，以“永字八法”为精神内核。围绕云展会的多媒体展示、线下物料进行主视觉的设计。</p> 
-            <p>我们将汉字书法的笔画与古典女子形象同构设计。人作为人存世界的本位，是已知唯一的具有创造性的生命，文字就是人类最伟大的创造之一，同时，汉字也见证与造就了中华文化的蓬勃发展。女子的形象柔美，与汉语笔画的动态美具有相同的韵味。两者之间有着千丝万缕的联系，这便是我们选取女子形象作为画面主要元素的原因。</p> 
-            <p>“永字八法”就是「永」这个字的八个笔画。分别是「侧、勒、弩、趯（替）、策、掠、啄、磔（折）」代表中国书法中笔画的大体。“永字八法”传承千年，从古至今都在书法学习中具有相当重要的意义。</p>  
-            <p>汉字笔画的形态各异，造型特殊，以汉字笔画的形态作为人物造型的轮廓，同时还要保证人物的动作生动而富有美感，可谓“戴着镣铐舞蹈”。</p>
-            <p>我们取法自古代中国舞蹈、诸如敦煌飞天中舞女生动的体态，再进一步进行艺术加工再现，创新性地将汉字笔画的形态与古典人物的造型相结合。这种结合从一个全新的角度展示了汉字书法的美感。这种结合不仅仅是形态上的，也是审美情趣上的。</p>   
-            <p>宗白华先生说过：“中国的书法，是节奏化的自然。”我们希望通过生动的动态形象和鲜明的色彩搭配，让大众在重视“永字八法”书写技巧的同时，也关注“八法”所蕴含的动态美学和审美意义。</p>  
-            <p>如《易经》所载：“仰则观象于天，俯则观法于地，视鸟兽之文与地之宜，近取诸身，远取诸物”。书法源于绘画，绘画源于自然。本作品选取了自然中的莲花，牡丹等进行 特征提取 并 艺术化再现 。同时，为了最大程度保留中华传统文化的风貌，我们在绘制传统元素和纹样时都进行了严谨、详实的考证。运用明亮绚丽的色彩并结合古代飞鸟纹，宝相纹，云鹤纹等中国传统纹饰元素，体现了汉字形体 汲取 自然万物形态 的意蕴和书法艺术 的自然之美。</p>
+          <div class="text__wrapper" @mousewheel="mousewheel">
+            <p>
+              后疫情时代，线下展会的开展受到了一定的阻力。线上展会的形式渐渐进入我们的生活。本作品依托一个虚构的线上书画云展会，以“永字八法”为精神内核。围绕云展会的多媒体展示、线下物料进行主视觉的设计。
+            </p>
+            <p>
+              我们将汉字书法的笔画与古典女子形象同构设计。人作为人存世界的本位，是已知唯一的具有创造性的生命，文字就是人类最伟大的创造之一，同时，汉字也见证与造就了中华文化的蓬勃发展。女子的形象柔美，与汉语笔画的动态美具有相同的韵味。两者之间有着千丝万缕的联系，这便是我们选取女子形象作为画面主要元素的原因。
+            </p>
+            <p>
+              “永字八法”就是「永」这个字的八个笔画。分别是「侧、勒、弩、趯（替）、策、掠、啄、磔（折）」代表中国书法中笔画的大体。“永字八法”传承千年，从古至今都在书法学习中具有相当重要的意义。
+            </p>
+            <p>
+              汉字笔画的形态各异，造型特殊，以汉字笔画的形态作为人物造型的轮廓，同时还要保证人物的动作生动而富有美感，可谓“戴着镣铐舞蹈”。
+            </p>
+            <p>
+              我们取法自古代中国舞蹈、诸如敦煌飞天中舞女生动的体态，再进一步进行艺术加工再现，创新性地将汉字笔画的形态与古典人物的造型相结合。这种结合从一个全新的角度展示了汉字书法的美感。这种结合不仅仅是形态上的，也是审美情趣上的。
+            </p>
+            <p>
+              宗白华先生说过：“中国的书法，是节奏化的自然。”我们希望通过生动的动态形象和鲜明的色彩搭配，让大众在重视“永字八法”书写技巧的同时，也关注“八法”所蕴含的动态美学和审美意义。
+            </p>
+            <p>
+              如《易经》所载：“仰则观象于天，俯则观法于地，视鸟兽之文与地之宜，近取诸身，远取诸物”。书法源于绘画，绘画源于自然。本作品选取了自然中的莲花，牡丹等进行
+              特征提取 并 艺术化再现
+              。同时，为了最大程度保留中华传统文化的风貌，我们在绘制传统元素和纹样时都进行了严谨、详实的考证。运用明亮绚丽的色彩并结合古代飞鸟纹，宝相纹，云鹤纹等中国传统纹饰元素，体现了汉字形体
+              汲取 自然万物形态 的意蕴和书法艺术 的自然之美。
+            </p>
           </div>
+        </div>
+        <div class="info__content__scrollout">
+          <div class="info__content__scrollin" ref="scrollin"></div>
         </div>
       </div>
       <div class="info__close">点击空白处关闭</div>
@@ -156,249 +145,320 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import BScroll from "@better-scroll/core";
-import ScrollBar from "@better-scroll/scroll-bar";
-import MouseWheel from "@better-scroll/mouse-wheel";
+  import axios from 'axios'
+  import BScroll from '@better-scroll/core'
+  import ScrollBar from '@better-scroll/scroll-bar'
+  import MouseWheel from '@better-scroll/mouse-wheel'
 
-BScroll.use(MouseWheel);
-BScroll.use(ScrollBar);
-export default {
-  name: "",
-  data() {
-    return {
-      showMiddle: false,
-      showRight: false,
-      showIcon: false,
-      music: require("../assets/music.mp4"),
-      src: require("../assets/default.png"),
-      login: false,
-      showInfo:false,
-      username:''
-    };
-  },
-  mounted() {
-    if (this.$store.state.login) {
-      axios.get("http://127.0.0.1:5000/head").then((res) => {
-        if (res.data != "") this.src = res.data;
-      });
-      this.login = true;
-    }
-    this.username=this.$store.state.username
-  },
-  methods: {
-    handleitems(e){
-      if(e.target.style.color!="rgb(255, 255, 255)"){
-        e.target.style.background="#D4968B"
-        e.target.style.color="#FFFFFF"
-      }else{
-        e.target.style.color="#C95945"
-        e.target.style.background="#F5EBE9"
+  BScroll.use(MouseWheel)
+  BScroll.use(ScrollBar)
+  export default {
+    name: '',
+    data() {
+      return {
+        showMiddle: false,
+        showRight: false,
+        showIcon: false,
+        music: require('../assets/music.mp4'),
+        src: require('../assets/default.png'),
+        login: false,
+        showInfo: false,
+        username: '',
+        src1: require('../assets/Vector.png'),
+        scroll: ''
       }
     },
-    handleshowInfo(){
-      this.showInfo=true;
-      setTimeout(()=>{this.scroll = new BScroll(this.$refs.wrapper, {
-        scrollX: true,
-        startY: false,
-        scrollbar: false,
-        click: true,
-        mouseWheel: true,
-      })
-      let bottom = document.documentElement.scrollHeight;
-      this.$refs.info.style.height=bottom+"px";
-      },300);
+    mounted() {
+      if (this.$store.state.user.login) {
+        axios.get('http://127.0.0.1:5000/head').then((res) => {
+          if (res.data != '') this.src = res.data
+        })
+        this.login = true
+      }
+      this.username = this.$store.state.user.username
     },
-    logout() {
-      this.$store.commit("Login", false);
-      this.$store.commit("Init")
-      this.$router.go(0);
-    },
-    router() {
-      this.$router.push("/");
-    },
-    handleMiddleBlur() {
-      this.showMiddle = false;
-    },
-    handleRightBlur() {
-      this.showRight = false;
-    },
-    handleRouteSouvenir() {
-      this.$router.push("/souvenir");
-    },
-    musicStart() {
-      this.showIcon = !this.showIcon;
-      this.$refs.audio.play();
-    },
-    musicPause() {
-      this.showIcon = !this.showIcon;
-      this.$refs.audio.pause();
-    },
-    handleRouterLogin() {
-      this.$router.push("/login");
-    },
-  },
-};
-</script>
-<style lang="less" scoped>
-.info{
-  z-index: 5;
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 0;
-  height: 7.2rem;
-  width: 12.8rem;
-  left: 0;
-  right: 0;
-  &__content{
-    margin: 1.15rem 3.21rem 1.23rem 3.2rem;
-    z-index: 6;
-    position:relative;
-    background: #DFE6E5;
-    width: 6.39rem;
-    height: 4.82rem;
-    padding: 0;
-    &__text{
-      position: absolute;
-      top: .5rem;
-      width: 4.51rem;
-      left: 1.27rem;
-      height: 4.14rem;
-      overflow: hidden;
-      font-size: .16rem;
-      font-weight: 400;
-      color: #3E5D58;
-      line-height: .19rem;
-      .text__wrapper{
-        p{
-          text-indent: .32rem;
-          margin-bottom: .2rem;
+    methods: {
+      mousewheel() {
+        const reg = /\d+/g
+        let height = reg.exec(document.documentElement.getElementsByClassName('text__wrapper')[0].style.transform)
+        if (height) {
+          height = reg.exec(document.documentElement.getElementsByClassName('text__wrapper')[0].style.transform)[0]
+        }
+        setTimeout(() => {
+          console.log(height)
+          this.$refs.scrollin.style.top = height / 1.1 + 'px'
+          if (height <= 37) this.$refs.scrollin.style.top = 0 + 'px'
+        }, 16)
+      },
+      handleitems(e) {
+        if (e.target.style.color != 'rgb(255, 255, 255)') {
+          e.target.style.background = '#D4968B'
+          e.target.style.color = '#FFFFFF'
+        } else {
+          e.target.style.color = '#C95945'
+          e.target.style.background = '#F5EBE9'
+        }
+      },
+      handleshowInfo() {
+        this.showInfo = true
+        setTimeout(() => {
+          this.scroll = new BScroll(this.$refs.wrapper, {
+            scrollX: true,
+            startY: false,
+            scrollbar: false,
+            click: true,
+            mouseWheel: true
+          })
+          let bottom = document.documentElement.scrollHeight
+          this.$refs.info.style.height = bottom + 'px'
+        }, 300)
+      },
+      logout() {
+        this.$store.commit('Logout')
+        this.$store.commit('Init')
+        this.$router.go(0)
+      },
+      router() {
+        this.$router.push('/')
+      },
+      handleMiddleBlur() {
+        this.showMiddle = false
+      },
+      handleRightBlur() {
+        this.showRight = false
+      },
+      handleRouteSouvenir() {
+        this.$router.push('/souvenir')
+      },
+      musicStart() {
+        this.showIcon = !this.showIcon
+        this.$refs.audio.play()
+      },
+      musicPause() {
+        this.showIcon = !this.showIcon
+        this.$refs.audio.pause()
+      },
+      handleRouterLogin() {
+        if (!this.$store.state.user.register) {
+          this.$router.push('/register')
+        } else if (!this.$store.state.user.login) {
+          this.$router.push('/login')
         }
       }
     }
   }
-   &__close{
+</script>
+<style lang="less" scoped>
+  .user {
+    height: 0.64rem;
+    font-size: 0.16rem;
+    font-family: PingFang SC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 0.64rem;
+    text-shadow: 0px 0.04rem 0.04rem rgba(0, 0, 0, 0.25);
+  }
+  .info {
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    height: 7.2rem;
+    width: 12.8rem;
+    left: 0;
+    right: 0;
+    &__content {
+      margin: 1.15rem 3.21rem 1.23rem 3.2rem;
+      z-index: 6;
+      position: relative;
+      background: url('../assets/info-background.png');
+      background-size: contain;
+      width: 6.39rem;
+      height: 4.82rem;
+      padding: 0;
+      &__title {
+        position: absolute;
+        left: 0.34rem;
+        top: 0.45rem;
+        width: 0.64rem;
+        height: 2.38rem;
+        padding: 0.29rem 0.16rem 0.54rem 0.16rem;
+        box-sizing: border-box;
+        background-color: #fff;
+        font-family: 'mFont';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.32rem;
+        line-height: 0.45rem;
+        overflow: hidden;
+        p {
+          z-index: 2;
+        }
+        img {
+          display: block;
+          position: relative;
+          bottom: 0.4rem;
+          left: 0.1rem;
+          z-index: 1;
+        }
+      }
+      &__text {
+        position: absolute;
+        top: 0.5rem;
+        width: 4.51rem;
+        left: 1.27rem;
+        height: 4.14rem;
+        overflow: hidden;
+        font-size: 0.16rem;
+        font-weight: 400;
+        color: #3e5d58;
+        line-height: 0.19rem;
+        .text__wrapper {
+          p {
+            text-indent: 0.32rem;
+            margin-bottom: 0.2rem;
+          }
+        }
+      }
+      &__scrollout {
+        position: absolute;
+        width: 0.04rem;
+        height: 4.09rem;
+        background-color: #fff;
+        left: 6.16rem;
+        top: 0.51rem;
+        overflow: hidden;
+      }
+      &__scrollin {
+        height: 1.08rem;
+        background-color: #9bc1ba;
+        width: 0.04rem;
+        position: relative;
+      }
+    }
+    &__close {
       font-family: 'mFont';
       font-weight: 400;
-      color: #FFEACA;
-      line-height: .28rem;
-      font-size: .24rem;
+      color: #ffeaca;
+      line-height: 0.28rem;
+      font-size: 0.24rem;
       position: absolute;
       top: 6.26rem;
       left: 5.56rem;
     }
-}
-audio {
-  position: absolute;
-  z-index: 1;
-}
-.router {
-  position: absolute;
-  top: 0;
-  left: 0.44rem;
-  height: 0.64rem;
-  width: 1.37rem;
-}
-.img-wrapper {
-  margin-left: 0.09rem;
-  margin-top: 0.12rem;
-  width: 0.4rem;
-  height: 0.4rem;
-  border: 0.01rem solid #ae2020;
-  border-radius: 50%;
-  overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
   }
-}
-.header__wrapper {
-  z-index: 2;
-  display: flex;
-  background-image: url(../assets/Header.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 0;
-  width: 100%;
-  padding-bottom: 5%;
-}
-.header__open {
-  display: flex;
-  flex-direction: column;
-  &__middle {
-    width: 0.88rem;
+  audio {
+    position: absolute;
+    z-index: 1;
+  }
+  .router {
     position: absolute;
     top: 0;
-    z-index: 10;
-    &__items {
-      line-height: 0.64rem;
-      height: 0.64rem;
-      font-size: 0.16rem;
-      background: #f5ebe9;
-      color: #c95945;
+    left: 0.44rem;
+    height: 0.64rem;
+    width: 1.37rem;
+  }
+  .img-wrapper {
+    margin-left: 0.09rem;
+    margin-top: 0.12rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 0.01rem solid #ae2020;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .header__wrapper {
+    z-index: 2;
+    display: flex;
+    background-image: url(../assets/Header.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 0;
+    width: 100%;
+    padding-bottom: 5%;
+  }
+  .header__open {
+    display: flex;
+    flex-direction: column;
+    &__middle {
+      width: 0.88rem;
+      position: absolute;
+      top: 0;
       z-index: 10;
-      &:nth-of-type(1) {
-        color: #953d2e;
+      &__items {
+        line-height: 0.64rem;
+        height: 0.64rem;
+        font-size: 0.16rem;
+        background: #f5ebe9;
+        color: #c95945;
+        z-index: 10;
+        &:nth-of-type(1) {
+          color: #953d2e;
+        }
+      }
+    }
+    &__right {
+      position: absolute;
+      top: 0.64rem;
+      right: 0rem;
+      width: 0.95rem;
+      z-index: 10;
+      &__items {
+        text-align: center;
+        line-height: 0.64rem;
+        height: 0.64rem;
+        font-size: 0.16rem;
+        background: #f5ebe9;
+        color: #c95945;
+        z-index: 10;
       }
     }
   }
-  &__right {
-    position: absolute;
-    top: 0.64rem;
-    right: 0.32rem;
-    width: 0.95rem;
-    z-index: 10;
-    &__items {
+  .header__middle {
+    margin-left: 3.23rem;
+    height: 0.64rem;
+    &__item {
+      width: 0.88rem;
       text-align: center;
+      margin-right: 0.24rem;
+      float: left;
+      color: #fff;
+      font-size: 0.16rem;
       line-height: 0.64rem;
       height: 0.64rem;
-      font-size: 0.16rem;
-      background: #f5ebe9;
-      color: #c95945;
-      z-index: 10;
     }
   }
-}
-.header__middle {
-  margin-left: 3.23rem;
-  height: 0.64rem;
-  &__item {
-    width: 0.88rem;
-    text-align: center;
-    margin-right: 0.24rem;
-    float: left;
-    color: #fff;
-    font-size: 0.16rem;
-    line-height: 0.64rem;
+  .header__right {
+    position: absolute;
+    right: 0.45rem;
     height: 0.64rem;
-  }
-}
-.header__right {
-  flex: 1;
-  margin-left: 2.9rem;
-  height: 0.64rem;
-  line-height: 0.64rem;
-  display: flex;
-  &__item {
-    margin-right: 0.07rem;
-    svg {
-      font-size: 0.5rem;
-      margin-bottom: 0.2rem;
-      width: 0.36rem;
-      height: 0.36rem;
-    }
-  }
-  &__login {
+    line-height: 0.64rem;
     display: flex;
-    margin-left: 0.32rem;
-    height: 0.6rem;
-    font-size: 0.16rem;
-    color: #fff;
-    .svg {
-      margin-top: 0.12rem;
-      margin-left: 0.1rem;
+    width: 2.4rem;
+    &__item {
+      margin-right: 0.07rem;
+      svg {
+        font-size: 0.5rem;
+        margin-bottom: 0.2rem;
+        width: 0.36rem;
+        height: 0.36rem;
+      }
+    }
+    &__login {
+      display: flex;
+      position: absolute;
+      right: 0;
+      height: 0.6rem;
+      font-size: 0.16rem;
+      color: #fff;
+      .svg {
+        margin-top: 0.12rem;
+        margin-left: 0.15rem;
+      }
     }
   }
-}
 </style>
-

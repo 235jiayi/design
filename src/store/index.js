@@ -1,12 +1,11 @@
 import { createStore } from 'vuex'
 const setLocalUser = (state) => {
-  const { login } = state
-  const loginString = JSON.stringify(login)
-  localStorage.login = loginString
+  const { user } = state
+  const userString = JSON.stringify(user)
+  localStorage.user = userString
 }
 const getLocalUser = () => {
-  if (localStorage.login)
-    return JSON.parse(localStorage.login)
+  if (localStorage.user) return JSON.parse(localStorage.user)
   return {}
 }
 const setLocalList = (state) => {
@@ -15,29 +14,31 @@ const setLocalList = (state) => {
   localStorage.list = listString
 }
 const getLocalList = () => {
-  if (localStorage.list)
-    return JSON.parse(localStorage.list)
+  if (localStorage.list) return JSON.parse(localStorage.list)
   return {}
 }
-const getLocalUserName = () => { 
-  if (localStorage.login) { 
-    let user = JSON.parse(localStorage.login)
-    return user.user
-  }
-  return ''
+const setLocalRember = (state) => {
+  const { rember } = state
+  const remberString = JSON.stringify(rember)
+  localStorage.rember = remberString
+}
+const getLocalRember = () => {
+  if (localStorage.rember) return JSON.parse(localStorage.rember)
+  return false
 }
 export default createStore({
   state: {
-    login: getLocalUser(),
+    user: getLocalUser(),
     list: getLocalList(),
-    username:getLocalUserName()
+    rember: getLocalRember()
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
-    Login(state, payload) {
-      state.login = payload;
-      state.username=payload.user
+    Register(state, payload) {
+      state.user.login = payload.login
+      state.user.register = payload.register
+      state.user.username = payload.username
+      state.user.password = payload.password
       setLocalUser(state)
     },
     Commend(state, payload) {
@@ -45,12 +46,23 @@ export default createStore({
       setLocalList(state)
     },
     Init(state, payload) {
-      state.list = [];
+      state.list = []
       setLocalList(state)
+    },
+    Login(state, payload) {
+      state.user.login = true
+      setLocalUser(state)
+    },
+    Logout(state, payload) {
+      state.user.login = false
+      setLocalUser(state)
+    },
+		Rember(state, payload) {
+			state.rember = payload
+			console.log(payload)
+      setLocalRember(state)
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })

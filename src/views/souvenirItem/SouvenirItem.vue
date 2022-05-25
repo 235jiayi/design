@@ -56,7 +56,7 @@ export default {
       src2: require(`../../assets/souvenir/souvenirItem.png`),
       src3: require("../../assets/buy/buy__return.png"),
       buy: false,
-      colors:['红','粉','黄']
+      colors:['橘','黄','粉']
     };
   },
   computed: {
