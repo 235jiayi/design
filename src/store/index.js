@@ -38,7 +38,8 @@ export default createStore({
       state.user.login = payload.login
       state.user.register = payload.register
       state.user.username = payload.username
-      state.user.password = payload.password
+			state.user.password = payload.password
+			state.user.phone=payload.phone
       setLocalUser(state)
     },
     Commend(state, payload) {
@@ -59,7 +60,6 @@ export default createStore({
     },
 		Rember(state, payload) {
 			state.rember = payload
-			console.log(payload)
       setLocalRember(state)
     }
   },

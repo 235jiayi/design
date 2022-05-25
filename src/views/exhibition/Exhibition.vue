@@ -1,5 +1,6 @@
 <template>
   <div class="exhibition">
+    <div class="connect">联系我们：bafashanhaihuajuan@166.com</div>
     <Header />
     <div class="exhibition__show" @click="share"></div>
     <div class="cover" v-show="showCover" ref="cover" @click="showCover = false">
@@ -189,7 +190,7 @@
               </div>
             </transition-group>
           </div>
-          <div class="svg__wrappers" @click="handleCommend">
+          <div class="svg__wrappers" @click.stop="handleCommend">
             <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill-rule="evenodd"
@@ -268,7 +269,7 @@
         srcShare: require('../../assets/share.png'),
         showShare: false,
         showCover: false,
-				id:0
+        id: 0
       }
     },
     mounted() {
@@ -278,7 +279,7 @@
         if (res.data != '') this.src1 = res.data
       })
       this.initList()
-			this.id=this.$route.params.id;
+      this.id = this.$route.params.id
     },
     methods: {
       download() {
@@ -302,7 +303,7 @@
           }
           this.$store.commit('Commend', data)
           this.commend = ''
-          this.$router.go(0)
+          location.reload();
         }
       },
       hanleleft() {
@@ -370,6 +371,18 @@
   }
 </script>
 <style lang="less" scoped>
+  .connect {
+    position: absolute;
+    right: 0.45rem;
+    bottom: -.4rem;
+    height: 0.14rem;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.1rem;
+    line-height: 0.14rem;
+    color: #999999;
+  }
   .cover {
     z-index: 3;
     position: absolute;
@@ -524,6 +537,7 @@
     background-size: 100% 3.8rem;
     background-repeat: no-repeat;
     background-position-y: 2.47rem;
+    position: relative;
     &__show {
       position: absolute;
       top: 0;

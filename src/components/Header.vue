@@ -185,7 +185,6 @@
           height = reg.exec(document.documentElement.getElementsByClassName('text__wrapper')[0].style.transform)[0]
         }
         setTimeout(() => {
-          console.log(height)
           this.$refs.scrollin.style.top = height / 1.1 + 'px'
           if (height <= 37) this.$refs.scrollin.style.top = 0 + 'px'
         }, 16)

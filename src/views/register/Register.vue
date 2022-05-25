@@ -1,5 +1,6 @@
 <template>
   <div class="register__wrapper">
+    <div class="connect">联系我们：bafashanhaihuajuan@166.com</div>
     <Header />
     <div class="register__title">
       <img :src="src0" alt="" />
@@ -15,7 +16,13 @@
       </div>
       <div class="register__content__info__content">
         <p>手机号</p>
-        <input type="text" placeholder="请填写11位手机号" @change="handlephone($event)" @click="handleclick($event)" />
+        <input
+          type="text"
+          placeholder="请填写11位手机号"
+          @change="handlephone($event)"
+          @click="handleclick($event)"
+          v-model="phone"
+        />
       </div>
       <div class="register__content__info__content">
         <p>邮箱</p>
@@ -78,7 +85,8 @@
         flag1: true,
         flag2: true,
         flag3: true,
-        password: ''
+        password: '',
+        phone: ''
       }
     },
     components: {
@@ -99,7 +107,6 @@
           e.target.style.color = '#C7B9B6'
           e.target.style.background = '#FAF9F9'
         }
-        console.log(e.target.style.color)
       },
       handleinfosave() {
         let flag = this.flag1 && this.flag2 && this.flag3
@@ -111,9 +118,10 @@
         }
         const data = {
           register: true,
-					login:false,
+          login: false,
           username: this.username,
-          password: this.password
+          password: this.password,
+          phone: this.phone
         }
         this.$store.commit('Register', data)
         this.$store.commit('Init')
@@ -181,7 +189,20 @@
   }
 </script>
 <style lang="less" scoped>
+  .connect {
+    position: absolute;
+    right: 0.45rem;
+    bottom: 0.79rem;
+    height: 0.14rem;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.1rem;
+    line-height: 0.14rem;
+    color: #999999;
+  }
   .register__wrapper {
+    position: relative;
     width: 12.8rem;
     height: 18rem;
     background: url('../../assets/register-background.png');

@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <div class="connect">联系我们：bafashanhaihuajuan@166.com</div>
     <Header />
     <div class="login__title">
       <img :src="src0" alt="" />
@@ -88,14 +89,13 @@
         }
       },
       handleLogin() {
-        if (this.flag0 && this.flag1 && this.$refs.username != '' && this.$refs.password != '') {
+        if (this.flag0 && this.flag1 && this.$refs.username.value != '' && this.$refs.password.value != '') {
           this.$store.commit('Login')
           this.$router.push('/')
         }
       },
       handleClick() {
         this.checked = !this.checked
-        console.log(this.checked)
         this.$store.commit('Rember', this.checked)
       },
       changehead() {
@@ -107,6 +107,18 @@
   }
 </script>
 <style lang="less" scoped>
+  .connect {
+    position: absolute;
+    right: 0.45rem;
+    bottom: 0.39rem;
+    height: 0.14rem;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.1rem;
+    line-height: 0.14rem;
+    color: #999999;
+  }
   .shareout {
     z-index: 4;
     position: absolute;
@@ -155,6 +167,7 @@
     background-position-y: 2.47rem;
     height: 7.2rem;
     width: 12.8rem;
+    position: relative;
     &__title {
       position: absolute;
       width: 0.64rem;
