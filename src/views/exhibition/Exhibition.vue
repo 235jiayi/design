@@ -303,10 +303,11 @@
           }
           this.$store.commit('Commend', data)
           this.commend = ''
-          location.reload();
+          location.reload()
         }
       },
       hanleleft() {
+        this.id = this.id - 0
         let length = this.$route.params.length - 0
         this.id = (length + this.id - 1) % length
         this.src = require(`../../assets/exhibit/exhibit${this.id}.jpg`)
@@ -314,8 +315,9 @@
         this.initList()
       },
       hanleleright() {
+        this.id = this.id - 0
         let length = this.$route.params.length - 0
-        this.id = (length + this.id + 1) % length
+        this.id = (length + this.id + 1 - 0) % length
         this.src = require(`../../assets/exhibit/exhibit${this.id}.jpg`)
         this.$router.push(`/exhibition/${this.id}/${length}`)
         this.initList()
@@ -374,7 +376,7 @@
   .connect {
     position: absolute;
     right: 0.45rem;
-    bottom: -.4rem;
+    bottom: -0.4rem;
     height: 0.14rem;
     font-family: 'PingFang SC';
     font-style: normal;

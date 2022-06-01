@@ -159,7 +159,7 @@
         showMiddle: false,
         showRight: false,
         showIcon: false,
-        music: require('../assets/music.mp4'),
+        music: require('../assets/music.mp3'),
         src: require('../assets/default.png'),
         login: false,
         showInfo: false,
